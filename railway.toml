@@ -1,0 +1,21 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile.prod"
+
+[deploy]
+startCommand = "php-fpm"
+healthcheckPath = "/up"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Railway: add a separate Worker service with start command:
+#   php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+#
+# Add PostgreSQL plugin — Railway injects DATABASE_URL; map to DB_* in Variables:
+#   DB_CONNECTION=pgsql
+#   DB_HOST=${{PGHOST}}
+#   DB_PORT=${{PGPORT}}
+#   DB_DATABASE=${{PGDATABASE}}
+#   DB_USERNAME=${{PGUSER}}
+#   DB_PASSWORD=${{PGPASSWORD}}
